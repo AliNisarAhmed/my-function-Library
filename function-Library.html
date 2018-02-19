@@ -1,0 +1,683 @@
+<!doctype html>
+
+<html>
+
+	<body>
+
+
+		<script>
+	// DATED 13-02-2018 (OFFICE)
+
+
+//-----------------------------------------------------------------------------------------
+
+//	MY OWN FUNCTION - Get FIRSTNAME, LASTNAME of a person and append optional titles
+
+	function showNameWithTitles(firstName, lastName, ...titles) {
+		
+		let titleString = '';
+
+		for (let title of titles) {
+			titleString += title + ' ';
+		}
+
+		return titleString + firstName + ' ' + lastName  
+	}
+
+
+
+//-------------------------------------------------------------------------------------------------------
+
+//  Maximal Salary from an Object
+
+	// function topSalary(salaries)
+
+	let salaries = {
+		"John" : 100,
+		Pete: 300,
+		Mary: 250,
+	}
+
+
+	function topSalaried(salaries) {
+		let salaryArr = Object.entries(salaries);
+		console.log(salaryArr);
+
+		if (salaryArr === []) return null;
+
+		let name, max = 0;
+
+		for (let [key, value] of salaryArr) {
+			if (value > max) {
+				max = value;
+				name = key;
+			}
+		}
+		return name;
+	}
+
+
+
+// This Function return the max Salary, rather than the name of the top pad person
+
+	function topSalary(salaries) {
+		let salaryArr = Object.values(salaries);
+		//console.log(salaryArr);
+		
+		if (salaryArr === []) return null;
+
+		maximumSalary = salaryArr.reduce((max,current) => {
+			if ( current > max ) {
+				max = current;
+			}
+			return max;
+		}, 0 );
+		
+		return maximumSalary;
+	}
+
+
+//	DESTRUCTURING ASSIGNMENT
+
+	/*let user = {
+		name: 'ali',
+		years: 30,
+	}
+
+	let {name, years:age, isAdmin = false} = user;
+	*/// name = 'ali'
+	// age = 30
+	// isAdmin = false
+
+
+// ----------------------------------------------------------------------
+
+//  ASK USER TO INPUT A NUMBER, accept only NUMBER
+
+	function readNumber () {
+		let num; 
+
+		do {
+			num = prompt("Enter a number", 0);
+		} while ( !isFinite(num) );
+
+		if (num === null || num === '') return null;
+
+		return +num;
+	}
+
+
+//  --------------------------------------------------------------------------------------------------
+//  Function that returns the number of properties in an obj
+	
+	let user = {
+		name: 'John',
+		age: 30,
+	}
+
+	function countObj(obj) {
+		return Object.keys(obj).length
+	}
+
+//  Calculate the sum of Salaries from the Salaries object
+
+	/*let salaries = {
+		'John': 100,
+		'Pete': 300,
+		'Mary': 250,
+	};*/
+
+	function sumSalaries(obj) {
+		if (salaries == {} ) {return 0;}
+		let sum = 0;
+		for (let value of Object.values(obj)) {
+			sum += value;
+		}
+		return sum;
+	}
+
+
+//  ----------------------------------------------------------------------------------------
+
+
+
+//  FILTER ANAGRAMS (Anagrams are words with same letters, but in different order)
+
+// INCOMPLETE
+
+	function aclean(arr) {
+		let set = new Set();
+		let newArr = [];
+
+		for (let i = 0; i < arr.length; i++) {
+			arr[i] = arr[i].toLowerCase()
+			arr[i].sort();
+			set.add(arr[i]);
+		}
+
+		for (let value of set.keys()) {
+			newArr.push(value);
+		}
+		return newArr;
+	}
+
+
+
+//----------------------------------------------------------------------------------------
+//  Output a linked-list in reverse order (RECURSIVE FUNCTION)
+
+	/*function printReverseList(list) {
+		if (list.next) {
+			printReverseList(list.next)
+		}
+
+		console.log(list.value);
+	}*/
+
+//  Loop Version
+
+	function printReverseList(list) {
+		let arr = [];
+		let tmp = list;
+
+		while(tmp) {
+			arr.push(tmp.value);
+			tmp = tmp.next;
+		}
+
+		for (let i = arr.length - 1; i >= 0; i--) {
+			console.log(arr[i]);
+		}
+
+	}	
+
+//---------------------------------------------------------------------------------------------
+//	Print linked-list items one by one. (Loop Version)
+	
+	let linkedList = {
+		value: 1,
+		next: {
+			value: 2,
+			next: {
+				value: 3,
+				next: {
+					value: 4,
+					next: null
+				}
+			}
+		}
+	}
+
+	/*function printList(list) {
+		let tmp = list;
+
+		while (tmp) {
+			console.log(tmp.value);
+			tmp = tmp.next;
+		}
+	}*/
+
+//  (RECURSIVE Version)
+
+	function printList(list) {
+		console.log(list.value);
+
+		if (list.next) {
+			printList(list.next);
+		}
+	}
+
+//-----------------------------------------------------------------------------------------------
+//	Calculate nth fibonacci number (VERY Slow for very large n)
+
+	/*function fib(n) {
+		return n <= 1 ? n : fib(n - 1) + fib(n - 2);
+	}
+*/
+
+
+// Implementation using loops (This approach is called Dynamic Programming bottom-up) (INCREDIBLY FAST )
+
+	function fib(n) {
+		let a = 1;
+		let b = 1;
+		for (let i = 3; i <= n; i++) {
+			let c = a + b;
+			a = b; 
+			b = c;
+		}
+		return b;
+	}
+
+//----------------------------------------------------------------------------------------
+
+// 	Calculate FACTORIAL using RECURSIVE function
+
+	/*function factorial(n) {
+		if (n == 0) {
+			return 1;
+		}
+		else {
+			return n * factorial(n - 1);
+		}
+	}*/
+
+// or more concisely
+
+	function factorial(n) {
+		return (n == 0) ? 1 : n * factorial(n - 1);
+	}
+
+
+
+//--------------------------------------------------------------------------------------
+
+//  FUNCTION TO SUM NUMBERS FROM 1 to n
+
+//	USING A FOR LOOP
+/*	function sumTo(n) {
+		let sum = 0;
+		for (var i = 1; i <= n; i++) {
+			sum += i;
+		}
+		return sum;
+	}
+*/
+
+
+//  USING RECURSION
+
+	function sumTo(n) {
+		if (n == 1) {
+			return 1;
+		}
+		else {
+			return n + sumTo(n - 1);
+		}
+	}
+
+// Using Arithmetic Progression Formula (FASTEST)
+
+/*	function sumTo(n) {
+		return n * (n + 1) / 2;
+	}	*/
+
+
+//-------------------------------------------------------------------------------------	
+// Returns an array with only UNIQUE elements of a given array
+
+// The below solution works only for small input arrays, as .includes()
+//	method checks for each element of array, which could spell trouble
+//  array size is in thousands.
+	
+/*	function unique(arr) {
+		let newArr = [];
+		for (let item of arr) {
+			if (!(newArr.includes(item))) {
+				newArr.push(item);
+				}
+			}
+		return newArr;
+		}*/
+	
+//	The Same function implemented using Sets
+
+	function unique(arr) {
+		let set = new Set();
+		let newArr = [];
+		for (let i = 0; i < arr.length; i++) {
+			set.add(arr[i]);
+
+		}			
+		for (let value of set.keys()) {
+			newArr.push(value);
+		}
+		return newArr;
+	}
+
+
+//------------------------------------------------------------------------------------------------	
+	
+//	Gets an average age from an array of objects(users) with a property 'age'
+
+	function getAverageAge(users) {
+		return users.reduce((a, b) => (a + b.age), 0) / users.length;	
+	}
+	
+	
+	
+
+//	SHUFFLE AN ARRAY IN PLACE, ALL COMBINATIONS SHOULD HAVE AN EQUAL Probability
+	
+/*	function shuffle(arr) {
+		
+		// FUNCTION TO GET A RANDOM INTEGER
+		function randomInteger(min, max) {
+			return Math.floor(min + (max + 1 - min) * (Math.random()));
+		}
+		
+		for (let i = 0; i < arr.length; i++) {
+			let interm;
+			let randomNumber = randomInteger(0, arr.length - 1);
+			interm = arr[i];
+			arr[i] = arr[randomNumber];
+			arr[randomNumber] = interm;
+		}
+	}
+
+*/
+	
+//  FISHER-YATES ALGORITHM for the above problem
+
+/*		function shuffle(arr) {
+			for (let i = arr.length - 1; i > 0; i--) {
+				let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+				[arr[i], arr[j]] = [arr[j], arr[i]]; // swap elements
+				}
+			}
+*/
+
+// ---------------------------------------------------------------------------------------------------------------------------
+
+			
+// SORT an array of names of objects, based on a property of these objects	
+	
+/*	function sortByName(arr) {
+		arr.sort((a,b) => a.name > b.name);
+		}
+*/	
+	
+	
+	
+/*	You have an array of user objects, each one has name, surname and id.
+	Write the code to create another array from it, of objects with id and 
+	fullName, where fullName is generated from name and surname.
+
+
+
+	let john = { name: "John", surname: "Smith", id: 1 };
+	let pete = { name: "Pete", surname: "Hunt", id: 2 };
+	let mary = { name: "Mary", surname: "Key", id: 3 };
+
+	let users = [ john, pete, mary ];
+
+	let usersMapped = users.map(user => ({fullname: `${user.name} ${user.surname}`,
+										id: user.id,}))
+
+/*
+	usersMapped = [
+	  { fullName: "John Smith", id: 1 },
+	  { fullName: "Pete Hunt", id: 2 },
+	  { fullName: "Mary Key", id: 3 }
+	]
+*/
+
+//  alert( usersMapped[0].id ) // 1
+//  alert( usersMapped[0].fullName ) // John Smith
+
+
+	
+//---------------------------------------------------------------------------------------------------------------------	
+	
+// 	You have an array of user objects, each one has user.name. 
+// 	Write the code that converts it into an array of names.
+	
+//	let john = { name: "John", age: 25 };
+//	let pete = { name: "Pete", age: 30 };
+//	let mary = { name: "Mary", age: 28 };
+
+//	let users = [ john, pete, mary ];
+
+//	The code that converts an array, and retrieves names from an object
+//	let names = users.map(item => item.name);
+
+//  alert( names ); // John, Pete, Mary
+	
+//--------------------------------------------------------------------------------------------------------------------------	
+	
+// CREATE A COPY OF THE GIVEN ARRAY of STRINGS, SORTED,
+
+	function copySorted(arrOfStrings) {
+		return arrOfStrings.slice().sort();
+	}
+	
+	
+	
+
+//------------------------------------------------------------------------------------------------------------------------------
+
+// SORT IN REVERSE
+//	Just use the below formula
+
+//	arr.sort((a,b) => b - a);
+
+// for sorting in ascending
+
+//	arr.sort((a,b) => a - b);
+		
+		
+//-------------------------------------------------------------------	
+	
+// FILTER AN ARRAY IN RANGE A and B (INCLUSIVE), modify the same 
+//	array (does not return)
+
+	function filterRangeInPlace(arr, a, b) {
+	    for (let i = arr.length - 1; i >= 0; i--) {
+			if (arr[i] < a || arr[i] > b) {
+				arr.splice(i, 1);
+			}
+			}
+			}
+		
+
+
+	
+	
+// Returns an new array with elements >= a and <= b
+	
+	function filterRange(arr, a, b) {
+		let newArr = [];
+		for (let i = 0; i < arr.length; i++) {
+			if (arr[i] >= a && arr[i] <= b) {
+				newArr.push(arr[i]);
+				}
+			}
+		return newArr;
+		}
+
+		
+	
+	
+	
+//---------------------------------------------------------------------
+	
+//RETURNS a string (separated by dashes) transformed into camleCase	
+	
+	function camelize(str) {
+		let arr = str.split('-');
+		function ucFirst(str) {
+			return str[0].toUpperCase() + str.slice(1,);
+				}
+		for (let i = 1; i < arr.length; i++) {
+			arr[i] = ucFirst(arr[i])
+			}
+		let newStr = arr.join('');
+		return newStr;
+		}
+	
+//   DATE 13-02-2018	
+	
+/*-------------------------------------------------------------------------
+	
+    function getMaxSubSum(arr) {
+
+		if arr.every(>= 0) {
+			return 0;
+		}
+
+		let allSums = [];	
+		for (i = arr.length - 1; i >= 0; i--) {
+			
+			subArr = arr.slice(0,i);
+			let sum = 0;
+
+			for (let j = 0; j < subArr.length -1; j++) {
+				sum += subArr[j];		
+			}
+
+			allSums.push(sum);
+
+		}
+
+		return allSums.
+	}
+
+	function truncate( str, maxlength) {
+		return (str.length > maxlength) ? str.slice(0, maxlength - 1) + '...' : str;
+		}
+
+
+	function checkSpam(str) {
+		let lowerStr = str.toLowercase();
+		return lowerStr.includes('viagra') || lowerStr.includes('xxx');
+	}	
+
+
+
+	function ucFirst(str) {
+		return str[0].toUpperCase() + str.slice(1,);
+	}
+	
+
+/*    function random(min, max) {
+		return min + (max - min) * (Math.random());
+	}
+	
+// RANDOM INTEGER BETWEEN MIN AND MAX BOTH INCLUSIVE
+
+	function randomInteger(min, max) {
+			return Math.floor(min + (max + 1 - min) * (Math.random()));
+		}
+	
+
+	
+	function Calculator() {
+		
+		let methods = {
+			"-": (a, b) => a - b,
+			"+": (a, b) => a + b,
+	
+		};
+
+		this.calculate = function(str) {
+			
+			let split = str.split(' '),
+				a = +split[0],
+				op = split[1],
+				b = +split[2]
+
+		if (!methods[op] || isNaN(a) || isNaN(b) ) {
+			return NaN;
+		}
+
+		return methods[op](a, b);
+		}
+
+		this.addMethod = function(name, func) {
+			methods[name] = func;
+		};
+	}
+
+	
+
+*/
+
+
+
+		
+	/*	function Calculator() {
+			
+			this.calculate = function(str) {
+				strSeparated = str.split(' ');
+				if (strSeparated[1] === '+')  {
+					return Number(strSeparated[0]) + Number(strSeparated[2]);
+					}
+				if (strSeparated[1] === '-') {
+					return Number(strSeparated[0]) - Number(strSeparated[2]);
+					}
+				};
+				
+			this.addOperator = function(name, func) {
+				return this.func;
+				};
+			};
+
+	*/ 
+
+
+
+	
+/*		function Accumulator(startingvalue) {
+		
+			this.value = startingvalue;
+			
+			this.read = function() {
+				this.value += +prompt('Enter a number to add to accumulator')
+				};
+			}
+*/		
+		
+/*		function Calculator() {
+		
+			this.read = function() {
+				this.a = +prompt('Enter a number');
+				this.b = +prompt('Enter a second number');
+				};
+			
+			this.sum = function() {
+				return this.a + this.b;
+				};
+			
+			this.mul = function () {
+				return this.a * this. b;
+				};
+			};
+		
+*/
+/*		let calculator = {
+			read() { 
+					 this.a = +prompt('Enter a number');
+					 this.b = +prompt('Enter a second number');
+			},
+			
+			sum() { return this.a + this.b; },
+			
+			mul() {return this.a * this.b; },
+		}
+		
+*/		
+		
+		let ladder = {
+			step: 0,
+			up() {
+				this.step++;
+				return this;
+			},
+			
+			down() {
+				this.step--;
+				return this;
+			},
+			
+			showStep() { 
+				alert(this.step);
+				return this; 
+				},
+		};
+		
+		
+		</script>
+
+	</body>
+	
+</html>
