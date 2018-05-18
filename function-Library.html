@@ -8,8 +8,261 @@
 		<script>
 	// DATED 13-02-2018 (OFFICE)
 
+//-----------------------------------------------------------------------------------------------------------------------------------
+
+//  INITIAL PARANTHESE REVERSE SOLUTION(CODEFIGHTS)
+
+
+// WORKING NON-REGEX Solution
+
+function reverseParentheses(target) {
+// identify the brackets "(" and ")"
+  if(!target.includes("(")) {return target}; // this returns the brackets removed version
+  
+  
+  let leftIndex = target.lastIndexOf("("); //Index of innermost opening bracket
+  let rightIndex = target.indexOf(")", leftIndex); //index of first closing bracket after above
+  let match = target.slice(leftIndex, rightIndex + 1); // getting the match with brackets
+  
+  let replacer = [...target.slice(leftIndex + 1, rightIndex)].reverse().join('');
+  // replacer is the string where brackets are removed and characters reversed
+  // 
+  target = target.replace(match, replacer);
+  // innermost brackets are replaced
+  
+  // function is called again to remove more brackets 
+  return reverseParentheses(target);  
+}
+
+
+// ==== REG EXP Solution - NOT WORKING ======
+// function reversePara(target) {
+// 	if(!target.includes( "(" )) {
+//        return target;
+//        }
+//     let regexp = /\((\w+)*\)/;
+//     let inner = regexp.exec(target);
+//   	inner[1] = [...inner[1]].reverse().join('');
+//     target = target.replace(regexp, inner[1])
+//     return reversePara(target);
+// }
+
+console.log(reversePara("(a(bc)d)"))	
+
+//--------------------------------------------------------------------------------------------------------------------------------
+//  SORT AN ARRAY, leaving -1 unaltered
+
+function sortByHeight(a) {
+    let arr = [];
+    let index = [];
+    
+    for (let i = 0; i < a.length; i++) {
+        if (a[i] === -1) {
+            index.push(i);
+        } else {
+            arr.push(a[i]);
+        }
+    }
+    
+    arr.sort(function(a, b) {return a - b});
+    
+    for (let i = 0; i < index.length; i++) {
+        arr.splice(index[i], 0, -1)
+    }
+    
+    return arr;
+}
+
+//----------------------------------------------------------------------------------------------------------------------------
+
+//  Given an array of strings, return another array containing all of its longest strings. CODEFIGHTS
+
+
+//  BEST SOLUTION 
+
+/*function allLongestStrings(inputArray) {
+    'use strict';
+    let maxSize = Math.max(...inputArray.map(x => x.length));
+    return inputArray.filter(x => x.length === maxSize);
+}
+*/
+
+//  My solution
+
+function allLongestStrings(inputArray) {
+    let newArr = [];
+    let maxLength = getMaxLength(inputArray);
+    
+    function getMaxLength(arr) {
+        let max = 0;
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].length > max) {
+                max = arr[i].length;
+            }
+        }
+        return max;
+    }
+    
+    for (let i = 0; i < inputArray.length; i++) {
+        if (inputArray[i].length === maxLength) {
+            newArr.push(inputArray[i]);
+        }
+    }
+        
+    return newArr;
+    
+}
+
+
+
+
+//  Matrix sum of All columns not containing zero in their head (from CodeFights)
+
+/*
+`Each cell in the matrix contains an integer that represents the price of the room. Some rooms are free (their cost is 0), but that's probably because they are haunted, so all the bots are afraid of them. That is why any room that is free or is located anywhere below a free room in the same column is not considered suitable for the bots to live in.
+
+Help the bots calculate the total price of all the rooms that are suitable for them.`*/
+
+// Best solution is to go through the matrix column wise and breaking from any column where zero is found
+
+
+function matrixElementsSum(matrix) {
+    let sum = 0;
+    let rows = matrix.length - 1;
+    let cols = matrix[0].length - 1;
+    
+     for (let col = 0; col <= cols; col++) {
+         for (let row = 0; row <= rows; row++) {
+             if (matrix[row][col] === 0) {
+                 break;
+             } else {
+                 sum += matrix[row][col];
+             }
+         }
+     }
+    return sum;
+}
+
+
+
+
+//  Sub-Optimal Solution by me
+
+/*function matrixElementsSum(matrix) {
+    let sum = 0;
+    let rows = matrix.length - 1;
+    let cols = matrix[0].length - 1;
+
+    for (let row = 0; row <= rows; row++) {
+        for (let col = 0; col <= cols; col++ ) {
+            if (Number.isNaN(matrix[row][col])) {
+                continue;
+            } else if (matrix[row][col] !== 0) {
+                sum += matrix[row][col];
+            } else {
+
+                for (let i = row; i <= rows; i++) {
+                    if (matrix[i + 1] === undefined) {
+                        continue;
+                    } else {
+                    matrix[i + 1][col] = NaN;
+                    }
+            }
+                
+            }
+        }
+        
+    }
+    return sum;
+}
+*/
+
+
+
+
+
+
+//	ALMOST INCREASING SEQUENCE (CodeFights)
+
+//  OPTIMAL SOLUTION found by me
+
+	function almostIncreasingSequence(sequence) {
+
+	function increasing(arr) {
+		if(arr.length === 1) {return true;};
+		for (let j = 0; j < arr.length - 1; j++) {
+			if ( arr[j + 1] <= arr[j] ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	for (let i = 0; i < sequence.length; i++) {	
+
+		if (sequence[i + 1] <= sequence[i]) {
+			let leftArr = sequence.slice(0, i).concat(sequence.slice(i + 1));
+			let rightArr = sequence.slice(0, i + 1).concat(sequence.slice(i + 2));
+
+			return increasing(leftArr) || increasing(rightArr);
+				
+		}
+	}
+	
+}
+
+	/*function almostIncreasingSequence(sequence) {
+    
+     for (let i = 0; i < sequence.length; i++) {
+          
+          let subSeq = sequence.slice(0,i).concat(sequence.slice(i + 1));
+          
+          let temp = [];
+
+          for (let j = 0; j < subSeq.length - 1; j++) {
+               
+               temp.push(subSeq[j + 1] > subSeq[j] )              
+               }
+
+           	if (temp.every( (a) => a === true) === true) {
+                return true;
+          }
+     }
+     return false;
+}*/
+
+
+
+
+
 
 //-----------------------------------------------------------------------------------------
+
+
+/*
+Given an array of integers, find the pair of adjacent elements that has the largest product and return that product.*/
+
+
+//   BEST SOLUTION
+
+
+	function adjacentElementsProduct(arr) {
+	  return Math.max(...arr.slice(1).map((x,i)=>[x*arr[i]]))
+	}
+
+
+//  My SOLUTION
+
+/*	function adjacentElementsProduct(inputArray) {
+	    let mapped = [];
+	    for (let i = 0; i <= inputArray.length - 2; i++) {
+	        mapped.push(inputArray[i] * inputArray[i + 1])
+	    }
+	    return Math.max(...mapped);
+	}
+
+*/
+
 
 //	MY OWN FUNCTION - Get FIRSTNAME, LASTNAME of a person and append optional titles
 
